@@ -1,0 +1,43 @@
+﻿@using LVTestClient.Data
+@inject Restclient client
+@page "/user"
+<PageTitle>User</PageTitle>
+<h3>User</h3>
+
+@if (users == null)
+{
+	<div class="spinner"></div>
+}
+else
+{
+	<div>
+		<input placeholder="new User" @bind="newUser"/>
+		<button disabled=@isRunning @onclick="AddUser">CreateUser</button>
+	</div>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach(var user in users)
+			{
+				<tr>
+					<td>@user.UserId</td>
+					<td><input @bind="user.Name" /></td>
+					<td>
+						<button @onclick="()=>DeleteUser(user)">X</button>
+						<button @onclick="()=>EditUser(user)">edit</button>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+	 <div class="row">
+        <div class="col">
+            <Pagination MetaData="@metaData" Spread="2" SelectedPage="SelectedPage" />
+        </div>
+    </div>
+}

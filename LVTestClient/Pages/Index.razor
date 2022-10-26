@@ -1,0 +1,66 @@
+﻿@using LVTestClient.Data
+@inject Restclient client
+@page "/"
+
+<PageTitle>Messages</PageTitle>
+
+<h3>Messages</h3>
+
+@if (posts == null || users == null)
+{
+    <div class="spinner"></div>
+}
+else if(users.Count() == 0){
+    <h2>No users</h2>
+    <p>Please create users first</p>
+}
+else
+{
+    <div class="messageinput">
+        <label>Post as</label>
+        <select name="user" @bind="selectedUser">
+            @foreach (var user in users)
+            {
+                <option value="@user.UserId">@user.Name</option>
+            }
+        </select>
+        <button disabled=@isRunning @onclick="AddMessage">Submit</button>
+        
+        <textarea placeholder="..." rows="5" @bind="newMessage" />
+        
+        
+    </div>
+    <div class="search">
+        <label>Search message content</label>
+        <input placeholder="search" @oninput="SearchPosts">
+    </div>
+    <div class="tableWrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>From</th>
+                    <th>Messages</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var post in posts.OrderByDescending(p=>p.Created))
+                {
+                    <tr>
+                        <td>@users.Single(u=>u.UserId == post.UserId).Name <br />@post.Created</td>
+                        <td><textarea rows="5" @bind="@post.Content" /></td>
+                        <td>
+                            <button @onclick="() => DeleteMessage(post)">X</button>
+                            <button @onclick="()=>EditMessage(post)">Edit</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col">
+            <Pagination MetaData="@metaData" Spread="2" SelectedPage="SelectedPage" />
+        </div>
+    </div>
+}

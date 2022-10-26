@@ -1,0 +1,28 @@
+﻿.messageinput{
+    
+}
+
+.messageinput button{
+   float:right;
+   margin-bottom:5px;
+}
+
+textarea{
+    width:100%
+
+}
+
+.table tbody tr td:first-of-type{
+    width:15%;
+}
+
+.table tbody tr td:last-of-type {
+    width:10%;
+    align-self:end;
+
+}
+
+.search{
+    margin-top:10px;
+    width:100%;
+}
